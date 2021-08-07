@@ -6,7 +6,7 @@
         <a href="{{ $exercice->video_url }}" target="_blank" class="block">
             📺
         </a>
-        <span class="block" wire:click="$set('isForm', true)">
+        <span class="block cursor-pointer" wire:click="$set('isForm', true)">
             🖋️
         </span>
     </div>
@@ -25,12 +25,15 @@
         @endif
             @csrf
             <div class="flex justify-center">
-                <input type="text" name="reps" id="reps" value="{{ $training->value ?? null }}" class="w-1/4 text-lg focus:ring-indigo-500 focus:border-indigo-500 block pl-3 border-blue-300 rounded-md" placeholder="1">
+                <div class="w-1/4">
+                    <label for="reps" class="block text-xs text-indigo-800">Répétitions:</label>
+                    <input type="text" name="reps" id="reps" value="{{ $training->value ?? null }}" class="text-lg focus:ring-indigo-500 focus:border-indigo-500 block pl-3 border-blue-300 rounded-md" placeholder="1">
+                </div>
                 <div class="m-2">
                     <button type="submit" class="mr-2">
                         💾
                     </button>
-                    <span wire:click="$set('isForm', false)">
+                    <span wire:click="$set('isForm', false)" class="cursor-pointer">
                         ❌
                     </span>
                 </div>
