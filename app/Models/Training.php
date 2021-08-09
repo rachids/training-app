@@ -11,6 +11,10 @@ class Training extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'value' => 'integer',
+    ];
+
     public function exercice(): BelongsTo
     {
         return $this->belongsTo(Exercice::class);
@@ -20,5 +24,13 @@ class Training extends Model
     {
         return $query->where('exercice_id', $exerciceId)
             ->whereDate('created_at', $date);
+    }
+
+    public function scopeBetweenDates(Builder $query, string $from = null, string $to = null): Builder
+    {
+        $from = $from ?? now()->startOfMonth();
+        $to = $to ?? now()->endOfMonth();
+
+        return $query->whereBetween('created_at', [$from, $to])->latest();
     }
 }
