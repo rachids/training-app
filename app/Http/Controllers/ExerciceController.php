@@ -2,84 +2,67 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreExercice;
 use App\Models\Exercice;
-use Illuminate\Http\Request;
 
 class ExerciceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $exercices = Exercice::all();
+
+        return view('exercices.index', compact('exercices'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('exercices.create', [
+            'exercice' => new Exercice(),
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreExercice $request)
     {
-        //
+        $exercice = new Exercice();
+
+        $exercice->name = $request->get('nom');
+        $exercice->description = $request->get('description');
+        $exercice->video_url = $request->get('video');
+        $exercice->is_enabled = $request->get('enabled');
+
+        $exercice->save();
+
+        return redirect()->route('exercices.index')->with('success', "L'exercice {$exercice->name} est sauvegardé.");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Exercice  $exercice
-     * @return \Illuminate\Http\Response
-     */
     public function show(Exercice $exercice)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Exercice  $exercice
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Exercice $exercice)
     {
-        //
+        return view('exercices.edit', [
+            'exercice' => $exercice,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Exercice  $exercice
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Exercice $exercice)
+    public function update(StoreExercice $request, Exercice $exercice)
     {
-        //
+        $exercice->name = $request->get('nom');
+        $exercice->description = $request->get('description');
+        $exercice->video_url = $request->get('video');
+        $exercice->is_enabled = $request->get('enabled');
+
+        $exercice->save();
+
+        return redirect()->route('exercices.index')->with('success', "L'exercice {$exercice->name} est modifié.");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Exercice  $exercice
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Exercice $exercice)
     {
-        //
+        $exercice->delete();
+
+        return redirect()->route('exercices.index')->with('success', "L'exercice {$exercice->name} est supprimé.");
     }
 }
