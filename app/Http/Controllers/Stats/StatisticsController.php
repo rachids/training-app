@@ -22,7 +22,7 @@ class StatisticsController extends Controller
             ->get();
 
         return view('training.stats', [
-            'exercices' => $trainings->pluck('exercice.name'),
+            'exercices' => $trainings->pluck('exercice.name')->unique(),
             'trainings' => (new SortTrainingsByDate())->handle($trainings),
         ]);
     }
