@@ -17,6 +17,7 @@ class TrainingResource extends JsonResource
         return [
             'id' => $this->id,
             'repetitions' => $this->value,
+            'date' => $this->created_at,
             'exercice' => $this->whenLoaded('exercice'),
         ];
     }
