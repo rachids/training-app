@@ -24,6 +24,10 @@ class LastTrainingController extends Controller
             ->whereDate('created_at', $lastDate->created_at)
             ->get();
 
-        return TrainingResource::collection($trainings);
+        return TrainingResource::collection($trainings)->additional([
+            'meta' => [
+                'training_date' => $lastDate->created_at->format('Y-m-d'),
+            ],
+        ]);
     }
 }
